@@ -12,6 +12,7 @@
   const modalTerms = modal.querySelector('.modal-terms');
   const modalWebsitePrompt = modal.querySelector('.modal-website-prompt');
   const modalImagePrompt = modal.querySelector('.modal-image-prompt');
+  const websitePromptBlock = modal.querySelector('.website-prompt-block');
   const imagePromptBlock = modal.querySelector('.image-prompt-block');
   const websiteCopy = modal.querySelector('.copy-website-prompt');
   const imageCopy = modal.querySelector('.copy-image-prompt');
@@ -62,38 +63,31 @@
   }
 
   function extendedDescription(card) {
-    const title = getTitle(card);
     const type = textOf(card, '.kicker');
     const short = textOf(card, 'p');
-    const image = card.querySelector('img');
-    const subject = image ? image.alt : `the live website ${title}`;
     const terms = card.referenceTerms.join(', ');
-    const mood = getMood(card);
-    const use = card.referenceKind === 'web'
-      ? 'For web design, study how the page sets a first focal point, divides content into sections, and keeps its main action easy to find.'
-      : 'For web design, translate its strongest relation between scale, space, texture, and type into a page system instead of copying the subject itself.';
-    return `This reference presents ${subject.toLowerCase()}. ${short} Its main design language combines ${terms}. The result feels ${mood}. ${use} It is most useful as a guide for hierarchy, pacing, image treatment, and the amount of visual tension a page can hold without losing clarity.`;
+    const focus = card.referenceKind === 'web'
+      ? 'Study its hierarchy, content order, image scale, and interaction cues.'
+      : 'Study how its composition, type, color, and surface treatment direct attention.';
+    return `${type}. ${short} Key vocabulary: ${terms}. ${focus}`;
   }
 
-  function websitePrompt(card) {
+  function webReferencePrompt(card) {
     const title = getTitle(card);
     const type = textOf(card, '.kicker').replace(/Live reference · /i, '');
     const short = textOf(card, 'p');
     const mood = getMood(card);
     const terms = card.referenceTerms.join(', ');
-    return `Design a responsive website inspired by the visual principles of “${title}.” Do not copy its brand, text, images, layout, or identity. Use it only as a direction for mood and design decisions.
+    return `Design an original responsive ${type.toLowerCase()} for [PROJECT / PURPOSE]. Use “${title}” only to study its web design principles.
 
-PURPOSE AND FEELING
-Create a ${type.toLowerCase()} experience that feels ${mood}. The source idea is: ${short} Translate that feeling into a useful interface for real content.
+REFERENCE LOGIC
+The useful source idea is: ${short} Build a new content system with a similar sense of ${terms}. Keep the tone ${mood}, but use original content, branding, images, and page structure.
 
-VISUAL SYSTEM
-Build the design around these traits: ${terms}. Set a clear type scale with one strong display level, a practical reading level, and small labels for data. Use spacing as an active part of the design. Let one key visual or content block lead each screen. Keep decoration tied to hierarchy or meaning. Use a limited color system with one main ground, one text color, and one signal color. If the reference uses grain, maps, scans, hard grids, or image layers, apply that trait with restraint and keep all text readable.
+PAGE SYSTEM
+Define the header, opening focal point, content order, grid changes, image roles, labels, and main action. State which elements stay fixed, scroll, overlap, expand, or react to pointer and keyboard input. Use scale and spacing to show priority. Keep body text easy to read and make every action clear.
 
-PAGE STRUCTURE
-Create a clear header, a focused opening section, a short context section, a flexible content grid, one detailed feature area, and a useful closing action. Vary image scale to set rhythm. Use captions and small metadata to make the page feel collected and specific. Keep navigation short and visible. On small screens, preserve the same order and mood without shrinking desktop blocks into unreadable cards.
-
-INTERACTION AND ACCESS
-Use simple hover and focus states that match the visual system. Add motion only when it explains a change or helps navigation. Support keyboard use, visible focus, good color contrast, reduced motion, useful alternative text, and large touch targets. The final page must feel related to the reference through structure and tone, not through direct imitation.`;
+RESPONSIVE AND ACCESS
+Adapt the hierarchy for narrow screens instead of stacking every desktop block without change. Keep touch targets large, focus states visible, contrast strong, motion optional, and images described with useful alt text. Copy the design principle, not the source layout or identity.`;
   }
 
   function imagePrompt(card) {
@@ -160,7 +154,8 @@ Use a wide 16:10 composition with a strong foreground-to-background relation. Ke
       chip.textContent = term;
       return chip;
     }));
-    modalWebsitePrompt.textContent = card.websitePrompt;
+    websitePromptBlock.hidden = card.referenceKind === 'image';
+    modalWebsitePrompt.textContent = card.referenceKind === 'web' ? card.websitePrompt : '';
     imagePromptBlock.hidden = card.referenceKind === 'web';
     modalImagePrompt.textContent = card.referenceKind === 'image' ? card.imagePrompt : '';
     modal.showModal();
@@ -180,7 +175,7 @@ Use a wide 16:10 composition with a strong foreground-to-background relation. Ke
       }));
 
       card.referenceDescription = extendedDescription(card);
-      card.websitePrompt = websitePrompt(card);
+      card.websitePrompt = kind === 'web' ? webReferencePrompt(card) : '';
       card.imagePrompt = imagePrompt(card);
 
       const heading = card.querySelector('h3') || card.querySelector('.domain');
@@ -195,8 +190,8 @@ Use a wide 16:10 composition with a strong foreground-to-background relation. Ke
       const body = card.querySelector('.card-body') || card;
       const actions = document.createElement('div');
       actions.className = 'card-actions';
-      actions.innerHTML = `<span class="card-count">REF—${card.referenceIndex}</span><button class="card-copy" type="button">Website prompt</button>`;
-      actions.querySelector('button').addEventListener('click', (event) => copyText(card.websitePrompt, event.currentTarget));
+      actions.innerHTML = `<span class="card-count">REF—${card.referenceIndex}</span>${kind === 'web' ? '<button class="card-copy" type="button">Website prompt</button>' : ''}`;
+      actions.querySelector('button')?.addEventListener('click', (event) => copyText(card.websitePrompt, event.currentTarget));
       body.append(actions);
     });
   });

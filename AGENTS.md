@@ -50,11 +50,15 @@ Study and describe:
 - Mood, pace, and visual tension.
 - Interaction patterns for web references.
 
-The website inspiration prompt must translate these traits into an original website. It must not copy the source brand, text, images, identity, or exact layout.
+Website references receive a website inspiration prompt that translates these traits into an original website. It must not copy the source brand, text, images, identity, or exact layout.
 
-Image references also receive a detailed image prompt for an original website asset. Website references do not show an image prompt.
+Image references receive only a detailed image prompt for an original website asset. They do not show a website prompt. Website references do not show an image prompt.
 
-Keep prompts specific. State the purpose, feeling, visual system, page structure, interaction needs, responsive behavior, and access needs.
+Keep modal descriptions short. Describe the design, name its key vocabulary, and state what to study.
+
+For website references, explain how to adapt the source hierarchy, content order, interaction, and responsive behavior.
+
+Keep prompts specific. State the purpose, feeling, visual system, interaction needs, responsive behavior, and access needs.
 
 ## Checks
 
