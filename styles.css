@@ -39,7 +39,7 @@ nav a:hover, nav a:focus-visible { background: var(--ink); color: var(--paper); 
 
 .hero { padding: 72px 0 50px; border-bottom: 1px solid var(--ink); }
 .eyebrow, .kicker, .meta, .number { font-family: "Courier New", monospace; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; font-weight: 700; }
-h1 { margin: 12px 0 22px; max-width: 1050px; font-family: "Montserrat", Arial, sans-serif; font-size: clamp(48px, 8vw, 122px); font-weight: 500; line-height: .9; letter-spacing: -.05em; }
+h1 { margin: 12px 0 22px; max-width: 1120px; font-family: "Montserrat", Arial, sans-serif; font-size: clamp(48px, 8vw, 122px); font-weight: 500; line-height: 1; letter-spacing: -.035em; text-wrap: balance; }
 .hero-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
 .hero-copy p { max-width: 650px; margin: 0; font-size: clamp(18px, 2vw, 27px); line-height: 1.4; letter-spacing: -.015em; }
 .counts { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
